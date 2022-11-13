@@ -113,7 +113,7 @@ if uploaded_file is not None:
         for t in stqdm(range(num_epochs)):
             y_train_pred = model(x_train)
             loss = criterion(y_train_pred, y_train_gru)
-            print("Epoch ", t, "MSE: ", loss.item())
+            # print("Epoch ", t, "MSE: ", loss.item())
             hist[t] = loss.item()
             optimiser.zero_grad()
             loss.backward()
@@ -123,8 +123,12 @@ if uploaded_file is not None:
     predict = pd.DataFrame(scaler.inverse_transform(y_train_pred.detach().numpy()))
     original = pd.DataFrame(scaler.inverse_transform(y_train_gru.detach().numpy()))
 
-    trace1 = go.Scatter(x = predict.index,y=predict[0],name='predicted')
-    trace2 = go.Scatter(x = original.index,y=original[0],name='original')
+    input_time_len = len(predict)
+    train_time_series = data['date'][:len(predict)]
+    test_time_series = data['date'][len(predict):]
+
+    trace1 = go.Scatter(x = train_time_series,y=predict[0],name='predicted')
+    trace2 = go.Scatter(x = train_time_series,y=original[0],name='original')
     trace3 = go.Scatter(x = np.arange(0,len(hist)-1),y=hist,name='Loss values')
 
     fig1 = subplots.make_subplots(rows = 1, cols = 2,subplot_titles=('Original Vs. Predicted',  'Loss Values'))
@@ -168,13 +172,13 @@ if uploaded_file is not None:
 
          
     fig2 = go.Figure()
-    fig2.add_trace(go.Scatter(go.Scatter(x=result.index, y=result[0],
+    fig2.add_trace(go.Scatter(go.Scatter(x=data['date'], y=result[0],
                         mode='lines',
                         name='Train prediction')))
-    fig2.add_trace(go.Scatter(x=result.index, y=result[1],
+    fig2.add_trace(go.Scatter(x=data['date'], y=result[1],
                         mode='lines',
                         name='Test prediction'))
-    fig2.add_trace(go.Scatter(go.Scatter(x=result.index, y=result[2],
+    fig2.add_trace(go.Scatter(go.Scatter(x=data['date'], y=result[2],
                         mode='lines',
                         name='Actual Value')))
 
