@@ -2,10 +2,13 @@
 
 ## What's going on ?
 
-> Showing the intraday time series data
-> Training the model
-> Predicting Output prices and loss values for train data
-> Predicting and plotting for the test data
+> Showing the intraday time series data.
+
+> Training the model.
+
+> Predicting Output prices and loss values for train data.
+
+> Predicting and plotting for the test data.
 
 ## Installation
 
