@@ -9,7 +9,7 @@ from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 import torch.nn as nn
 from stqdm import stqdm
-from plotly import tools
+from plotly import subplots
 import plotly.graph_objs as go
 
 st.set_page_config(layout="wide")
@@ -127,7 +127,7 @@ if uploaded_file is not None:
     trace2 = go.Scatter(x = original.index,y=original[0],name='original')
     trace3 = go.Scatter(x = np.arange(0,len(hist)-1),y=hist,name='Loss values')
 
-    fig1 = tools.make_subplots(rows = 1, cols = 2,subplot_titles=('Original Vs. Predicted',  'Loss Values'))
+    fig1 = subplots.make_subplots(rows = 1, cols = 2,subplot_titles=('Original Vs. Predicted',  'Loss Values'))
     fig1.append_trace(trace1, 1, 1)
     fig1.append_trace(trace2, 1, 1)
     fig1.append_trace(trace3, 1, 2)
